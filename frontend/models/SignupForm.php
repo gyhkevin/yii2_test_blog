@@ -12,7 +12,8 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
+    public $repassword;
+    public $verifyCode;
 
     /**
      * @inheritdoc
@@ -31,8 +32,11 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\OpenUser', 'message' => 'This email address has already been taken.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            [['password','repassword'], 'required'],
+            [['password','repassword'], 'string', 'min' => 6],
+            ['repassword', 'compare', 'compareAttribute'=>'password', 'message' => \Yii::t('common','Two times password is diffiance.')],
+
+            ['verifyCode', 'captcha'],
         ];
     }
     /**
@@ -43,7 +47,9 @@ class SignupForm extends Model
         return [
             'username' => '用户名',
             'email' => '邮箱',
-            'password' => '密码'
+            'password' => '密码',
+            'repassword' => '重复密码',
+            'verifyCode' => '验证码'
         ];
     }
     /**

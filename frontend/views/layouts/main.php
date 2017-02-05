@@ -34,8 +34,9 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
+    $leftItems = [
         ['label' => Yii::t('yii','Home'), 'url' => ['/site/index']],
+        ['label' => Yii::t('common','Post'), 'url' => ['/post/index']],
         ['label' => Yii::t('common','About'), 'url' => ['/site/about']],
         ['label' => Yii::t('common','Contact'), 'url' => ['/site/contact']],
     ];
@@ -51,10 +52,26 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+        // 另一种写法，菜单下拉
+        $rightItems[] = [
+            'label' => '<img src="#" >',
+            'url' => '/site/login',
+            'linkOptions' => ['class'=>'avatar'],
+            'items' => [
+                'label' => '<i class="fa fa-sign-out"> 退出</i>',
+                'url' => ['/site/loginout'],
+                'linkOptions' => ['data-method'=>'post']
+            ]
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,    // 转换为HTML代码
         'items' => $menuItems,
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-left'],
+        'items' => $leftItems,
     ]);
     NavBar::end();
     ?>
